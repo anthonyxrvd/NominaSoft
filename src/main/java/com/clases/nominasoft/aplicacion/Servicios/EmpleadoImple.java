@@ -18,6 +18,7 @@ public class EmpleadoImple implements IEmpleadoService {
     @Transactional(readOnly = true)
     @Override
     public List<Empleado> findAll() {
+
         return (List<Empleado>)empleadoDao.findAll();
     }
 

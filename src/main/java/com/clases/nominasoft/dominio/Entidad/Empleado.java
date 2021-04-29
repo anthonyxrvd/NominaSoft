@@ -38,15 +38,12 @@ public class Empleado implements Serializable {
     public Long getDNI() {
         return DNI;
     }
-
     public void setDNI(Long DNI) {
         this.DNI = DNI;
     }
-
     public String getEstadoCivil() {
         return EstadoCivil;
     }
-
     public void setEstadoCivil(String estadoCivil) {
         EstadoCivil = estadoCivil;
     }
