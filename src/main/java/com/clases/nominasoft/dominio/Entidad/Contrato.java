@@ -1,5 +1,5 @@
 package com.clases.nominasoft.dominio.Entidad;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.GenerationType.*;
-
 @Entity
 @Table(name="contratos")
 public class Contrato implements Serializable {
@@ -39,11 +38,15 @@ public class Contrato implements Serializable {
             columnDefinition = "TEXT"
     )
     private String cargo;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(
             name = "fecha_inicio",
             nullable = false
     )
     private Calendar fechaInicio;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(
             name = "fecha_fin",
             nullable = false

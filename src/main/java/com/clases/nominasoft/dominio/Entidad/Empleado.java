@@ -1,6 +1,7 @@
 package com.clases.nominasoft.dominio.Entidad;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -67,6 +68,8 @@ public class Empleado implements Serializable {
     )
     private String telefono;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(name = "fecha_nacimiento")
     private Calendar fechaNacimiento;
 

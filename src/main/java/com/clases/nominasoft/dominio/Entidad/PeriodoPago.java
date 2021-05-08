@@ -1,5 +1,6 @@
 package com.clases.nominasoft.dominio.Entidad;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,9 +38,13 @@ public class PeriodoPago implements Serializable {
     )
     private boolean estado;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(name = "fecha_inicio")
     private Calendar fechaInicio;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(name = "fecha_fin")
     private Calendar fechaFin;
 

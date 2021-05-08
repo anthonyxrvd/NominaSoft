@@ -1,5 +1,6 @@
 package com.clases.nominasoft.dominio.Entidad;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,6 +32,8 @@ public class Pago implements Serializable {
     )
     private Long id;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(name = "fecha_actual")
     private Calendar fechaActual;
 
