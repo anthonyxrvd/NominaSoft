@@ -35,4 +35,5 @@ public class ContratoImple implements IContratoService {
     public Contrato buscar(long id) {
         return null;
     }
+
 }

@@ -40,7 +40,7 @@ public class Empleado implements Serializable {
             nullable=false,
             length = 8
     )
-    private Long DNI;
+    private Long dni;
 
     @Column(
             name = "nombre",
@@ -90,11 +90,11 @@ public class Empleado implements Serializable {
     }
 
     public Long getDNI() {
-        return DNI;
+        return dni;
     }
 
     public void setDNI(Long DNI) {
-        this.DNI = DNI;
+        this.dni = DNI;
     }
 
     public String getNombre() {

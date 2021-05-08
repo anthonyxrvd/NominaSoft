@@ -2,6 +2,7 @@ package com.clases.nominasoft.web.Controlador;
 
 
 import com.clases.nominasoft.dominio.Contratos.IEmpleadoService;
+import com.clases.nominasoft.dominio.Entidad.Contrato;
 import com.clases.nominasoft.dominio.Entidad.Empleado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -90,6 +91,25 @@ public class EmpleadoControlador {
         response.put("Mensaje","El empleado ha sido actualizado con exito :DDD");
         response.put("Empleado",empleado2);
         return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+    }
+
+    @GetMapping("/empleados/{dni}")
+    public ResponseEntity<?> filtrarPorDni(@PathVariable Long dni){
+        Empleado empleado = null;
+        Map<String, Object> response = new HashMap<>();
+        try{
+            empleado = empleadoService.findByDni(dni);
+        }catch(DataAccessException e){
+
+            response.put("mensaje", "Error al realizar la consulta en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(empleado==null) {
+            response.put("mensaje", "El empleado con dni: ".concat(dni.toString().concat(" no existe en la base de datos!")));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Empleado>(empleado, HttpStatus.OK);
     }
 
 }

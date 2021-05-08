@@ -30,11 +30,17 @@ public class EmpleadoImple implements IEmpleadoService {
     @Override
     public void eliminar(long id) {
         empleadoDao.deleteById(id);
-
     }
-
     @Override
     public Empleado buscar(long id) {
         return empleadoDao.findById(id).orElse(null);
     }
+
+    @Override
+    @Transactional(readOnly=true)
+    public Empleado findByDni(Long dni) {
+        return empleadoDao.findByDni(dni);
+    }
+
+
 }

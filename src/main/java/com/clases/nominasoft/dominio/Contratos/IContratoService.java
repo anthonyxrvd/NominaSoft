@@ -10,4 +10,5 @@ public interface IContratoService {
     public Contrato guardar(Contrato contrato);
     public void eliminar(long id);
     public Contrato buscar(long id);
+
 }
