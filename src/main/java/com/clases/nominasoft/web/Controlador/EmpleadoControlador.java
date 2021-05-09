@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins="http://localhost:4200",maxAge=3600)
 @RestController
 @RequestMapping("/api")
 public class EmpleadoControlador {
@@ -79,8 +79,12 @@ public class EmpleadoControlador {
         }
         try{
             e.setDireccion(empleado.getDireccion());
-            e.setDNI(empleado.getDNI());
+            e.setDni(empleado.getDni());
             e.setEstadoCivil(empleado.getEstadoCivil());
+            e.setNombre(empleado.getNombre());
+            e.setGradoAcademico(empleado.getGradoAcademico());
+            e.setTelefono(empleado.getTelefono());
+            e.setFechaNacimiento(empleado.getFechaNacimiento());
             empleado2=empleadoService.guardar(e);
 
         }catch(DataAccessException x){

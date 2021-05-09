@@ -17,19 +17,7 @@ public class Contrato implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(
-            name = "secuencia_contrato",
-            sequenceName = "secuencia_contrato",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "secuencia_contrato"
-    )
-    @Column(
-            name = "id",
-            updatable = false
-    )
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Column(name = "asignacion_familiar")
     private boolean asignacionFamiliar;
@@ -64,7 +52,6 @@ public class Contrato implements Serializable {
     private Afp afp;
 
     @JsonIgnoreProperties({"contratos","hibernateLazyInitializer", "handler"})
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empleado_id",
             referencedColumnName = "id")

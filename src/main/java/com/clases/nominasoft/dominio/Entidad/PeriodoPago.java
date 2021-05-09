@@ -18,20 +18,8 @@ public class PeriodoPago implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(
-            name = "secuencia_periodo",
-            sequenceName = "secuencia_periodo",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "secuencia_periodo"
-    )
-    @Column(
-            name = "id",
-            updatable = false
-    )
-    private long id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
     @Column(
             name = "estado",
             columnDefinition = "BOOLEAN DEFAULT FALSE"

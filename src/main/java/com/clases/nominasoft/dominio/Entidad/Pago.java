@@ -17,19 +17,7 @@ public class Pago implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(
-            name = "secuencia_pago",
-            sequenceName = "secuencia_pago",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "secuencia_pago"
-    )
-    @Column(
-            name = "id",
-            updatable = false
-    )
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @JsonFormat(pattern = "dd-MM-yyyy")

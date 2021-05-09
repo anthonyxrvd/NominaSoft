@@ -11,19 +11,7 @@ public class OtrosConceptos implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(
-            name = "secuencia_otrosconceptos",
-            sequenceName = "secuencia_otrosconceptos",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "secuencia_otrosconceptos"
-    )
-    @Column(
-            name = "id",
-            updatable = false
-    )
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "monto_adelantos")

@@ -17,7 +17,7 @@ class NominasoftBackendApplicationTests {
     void saveEmpleado(){
         Empleado instance = new Empleado();
         instance.setId(12L);
-        instance.setDNI(1234L);
+        instance.setDni(1234L);
         instance.setEstadoCivil("soltero");
         try{
             empleadoService.guardar(instance);

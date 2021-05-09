@@ -1,4 +1,4 @@
-insert into empleados(id,direccion,dni,estado_civil,fecha_nacimiento,nombre,telefono)values(1,'villa del mar',72314566,'soltero','2000-07-07','Ralff',980989181);
+insert into empleados(id,direccion,dni,estado_civil,fecha_nacimiento,nombre,telefono,grado_academico)values(1,'villa del mar',72314566,'soltero','2000-07-07','Ralff',980989181,'Universitario');
 
 insert into afp(id, descuento, nombre, tipo_afp) VALUES (2,20,'Profuturo',1);
 

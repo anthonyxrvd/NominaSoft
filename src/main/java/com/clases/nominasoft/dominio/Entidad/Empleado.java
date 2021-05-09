@@ -19,20 +19,7 @@ public class Empleado implements Serializable {
     private static final long serialVersionUID =1L;
 
     @Id
-    @SequenceGenerator(
-            name = "secuencia_empleado",
-            sequenceName = "secuencia_empleado",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "secuencia_empleado"
-    )
-
-    @Column(
-            name = "id",
-            updatable = false
-    )
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(
@@ -73,6 +60,12 @@ public class Empleado implements Serializable {
     @Column(name = "fecha_nacimiento")
     private Calendar fechaNacimiento;
 
+    @Column(
+            name = "grado_academico",
+            columnDefinition = "TEXT",
+            length = 9
+    )
+    private String gradoAcademico;
     @JsonIgnoreProperties({"empleado","hibernateLazyInitializer","handler"})
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -87,14 +80,6 @@ public class Empleado implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getDNI() {
-        return dni;
-    }
-
-    public void setDNI(Long DNI) {
-        this.dni = DNI;
     }
 
     public String getNombre() {
@@ -131,6 +116,22 @@ public class Empleado implements Serializable {
 
     public Calendar getFechaNacimiento() {
         return fechaNacimiento;
+    }
+
+    public Long getDni() {
+        return dni;
+    }
+
+    public void setDni(Long dni) {
+        this.dni = dni;
+    }
+
+    public String getGradoAcademico() {
+        return gradoAcademico;
+    }
+
+    public void setGradoAcademico(String gradoAcademico) {
+        this.gradoAcademico = gradoAcademico;
     }
 
     public void setFechaNacimiento(Calendar fechaNacimiento) {
