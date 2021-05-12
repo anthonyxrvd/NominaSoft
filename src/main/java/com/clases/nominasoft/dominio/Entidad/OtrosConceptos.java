@@ -33,6 +33,8 @@ public class OtrosConceptos implements Serializable {
     private float montoReintegro;
 
 
+
+
     public float getMontoAdelantos() {
         return montoAdelantos;
     }
@@ -89,13 +91,13 @@ public class OtrosConceptos implements Serializable {
     }
 
     //REGLAS DE NEGOCIO
-    public float calcularTotalConceptosIngresos()
+    public double calcularTotalConceptosIngresos()
     {
-        float monto = montoHorasExtra + montoReintegro + montoOtrosIngresos;
+        double monto = montoHorasExtra + montoReintegro + montoOtrosIngresos;
         return monto;
     }
 
-    public float  calcularTotalConceptosDescuentos ()
+    public double  calcularTotalConceptosDescuentos ()
     {
         float monto = montoHorasAusente + montoAdelantos + montoOtrosDescuentos;
         return monto;

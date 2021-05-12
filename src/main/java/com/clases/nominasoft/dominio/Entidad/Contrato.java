@@ -56,13 +56,13 @@ public class Contrato implements Serializable {
     @JoinColumn(name = "empleado_id",
             referencedColumnName = "id")
      private Empleado empleado;
-    @OneToOne(cascade = CascadeType.ALL)
+    /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "otrosconceptos_id",
             referencedColumnName = "id"
     )
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private OtrosConceptos conceptos;
+    private OtrosConceptos conceptos;*/
 
     @JsonIgnoreProperties({"contrato","hibernateLazyInitializer", "handler"})
     @OneToMany(
@@ -154,13 +154,13 @@ public class Contrato implements Serializable {
         this.activo = activo;
     }
 
-    public OtrosConceptos getConceptos() {
+ /*   public OtrosConceptos getConceptos() {
         return conceptos;
     }
 
     public void setConceptos(OtrosConceptos conceptos) {
         this.conceptos = conceptos;
-    }
+    }*/
 
     public List<Pago> getPagos() {
         return pagos;
@@ -190,14 +190,12 @@ public class Contrato implements Serializable {
         }
         return false;
     }
-
     public boolean esValidaFechaFin() {
         if (minimo3Meses() && maximo12Meses()) {
             return true;
         }
         return false;
     }
-
     public boolean esValidoHorasContratadas() {
         if (horasContratadas >= 8 && horasContratadas <= 40) {
             if (horasContratadas % 4 == 0)
@@ -205,14 +203,12 @@ public class Contrato implements Serializable {
         }
         return false;
     }
-
     public boolean esValidoValorHora() {
         if (valorHora >= 10 && valorHora <= 60) {
             return true;
         }
         return false;
     }
-
     public float getDescuentoAFP() {
         float descuento = 0;
         descuento = afp.getDescuento();
@@ -220,40 +216,25 @@ public class Contrato implements Serializable {
         return descuento / 100;
     }
 
-    public int getSueldoBasico() {
+    /*public double calcularTotalIngresos() { //mover a otra clase, puede ser pagos
+        return calcularSueldoBasico() + calcularMontoAsignacionFamiliar() + conceptos.calcularTotalConceptosIngresos();
+    }*/
 
-        return valorHora * horasContratadas;
-    }
 
-    public float calcularMontoAsignacionFamiliar() {
-        float monto = 0f;
-        if (asignacionFamiliar) {
-            monto = getSueldoBasico() * 0.1f;
-        }
-        return monto;
-    }
-
-    public float calcularTotalIngresos() {
-        return getSueldoBasico() + calcularMontoAsignacionFamiliar() + conceptos.calcularTotalConceptosIngresos();
-    }
-
-    public float calcularDescuentoAFP() {
-        return getSueldoBasico() * getDescuentoAFP();
-    }
-
-    public float calcularTotalDescuentos() {
+   /* public float calcularTotalDescuentos() {
         return calcularDescuentoAFP() + conceptos.calcularTotalConceptosDescuentos();
-    }
+    }*/
 
-    public float calcularSueldoNeto() {
+    /*public double calcularSueldoNeto() { //reubicado a clase pagos
+
         return calcularTotalIngresos() - calcularTotalDescuentos();
-    }
+    }*/
 
     public int calcularHorasContratadasPorSemana() {
         return (int) Math.ceil((horasContratadas / calcularSemanasDelContrato()));
     }
-    //OTROS METODOS
 
+    //OTROS METODOS
     private boolean minimo3Meses() {
         Calendar fechaInicioCopia = (Calendar) fechaInicio.clone();
         fechaInicioCopia.add(Calendar.MONTH, 3);
@@ -262,7 +243,6 @@ public class Contrato implements Serializable {
         }
         return false;
     }
-
     private boolean maximo12Meses() {
         Calendar fechaInicioCopia = (Calendar) fechaInicio.clone();
         fechaInicioCopia.add(Calendar.MONTH, 12);
@@ -271,7 +251,6 @@ public class Contrato implements Serializable {
         }
         return false;
     }
-
     private int calcularSemanasDelContrato() {
         long milis = fechaFin.getTimeInMillis() - fechaInicio.getTimeInMillis();
         int dias = (int) Math.floor((double) (milis / 86400000));

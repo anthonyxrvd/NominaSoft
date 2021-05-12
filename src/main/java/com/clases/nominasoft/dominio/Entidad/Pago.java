@@ -40,6 +40,15 @@ public class Pago implements Serializable {
             referencedColumnName = "id"
     )
      private Contrato contrato;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "otrosconceptos_id",
+            referencedColumnName = "id"
+    )
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private OtrosConceptos conceptos;
+
+
 
 
     public void setId(Long id) {
@@ -72,9 +81,42 @@ public class Pago implements Serializable {
         this.contrato = contrato;
     }
 
+    public OtrosConceptos getConceptos() {
+        return conceptos;
+    }
 
+    public void setConceptos(OtrosConceptos conceptos) {
+        this.conceptos = conceptos;
+    }
     //REGLAS DE NEGOCIO
+    public int calcularSueldoBasico() {
 
+        return calcularTotalDeHoras()* contrato.getValorHora();
+    }
+
+
+    public double calcularIngresoTotal() {
+        return calcularSueldoBasico() + calcularMontoAsignacionFamiliar() + conceptos.calcularTotalConceptosIngresos();
+    }
+
+    public double calcularTotalDescuentos() {
+        return calcularDescuentoAFP() + conceptos.calcularTotalConceptosDescuentos();
+    }
+
+    public float calcularMontoAsignacionFamiliar() {
+        float monto = 0f;
+        if (contrato.isAsignacionFamiliar()) {
+            monto = calcularSueldoBasico() * 0.1f;
+        }
+        return monto;
+    }
+    public float calcularDescuentoAFP() {
+        return calcularSueldoBasico() * contrato.getDescuentoAFP();
+    }
+    public double calcularSueldoNeto() {
+
+        return calcularIngresoTotal() - calcularTotalDescuentos();
+    }
     public int calcularTotalDeHoras(){
         return periodo.getSemanasDelPeriodo() * contrato.calcularHorasContratadasPorSemana();
     }
