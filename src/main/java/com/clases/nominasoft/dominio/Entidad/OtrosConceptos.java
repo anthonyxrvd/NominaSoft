@@ -1,5 +1,7 @@
 package com.clases.nominasoft.dominio.Entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -32,8 +34,31 @@ public class OtrosConceptos implements Serializable {
     @Column(name = "monto_reintegro")
     private float montoReintegro;
 
+    @JsonIgnoreProperties({"conceptos","hibernateLazyInitializer", "handler"})
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(
+            name="contrato_id",
+            referencedColumnName = "id"
+    )
+    private Contrato contrato;
 
+    public OtrosConceptos(float montoAdelantos, float montoHorasAusente, float montoHorasExtra, float montoOtrosDescuentos, float montoOtrosIngresos, float montoReintegro, Contrato contrato) {
+        this.montoAdelantos = montoAdelantos;
+        this.montoHorasAusente = montoHorasAusente;
+        this.montoHorasExtra = montoHorasExtra;
+        this.montoOtrosDescuentos = montoOtrosDescuentos;
+        this.montoOtrosIngresos = montoOtrosIngresos;
+        this.montoReintegro = montoReintegro;
+        this.contrato = contrato;
+    }
 
+    public Contrato getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
+    }
 
     public float getMontoAdelantos() {
         return montoAdelantos;

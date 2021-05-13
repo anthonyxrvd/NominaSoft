@@ -10,4 +10,4 @@ insert into contratos(id, activo, asignacion_familiar, cargo, fecha_fin, fecha_i
 insert into contratos(id, activo, asignacion_familiar, cargo, fecha_fin, fecha_inicio, horas_contratadas, valor_hora, afp_id, empleado_id)VALUES(2,1,1,'tester','2022-12-12','2021-05-01',320,20,2,2);
 insert into periodo_de_pago(id, estado, fecha_fin, fecha_inicio) VALUES (1,1,'2022-02-02','2021-01-01');
 
-insert into pagos(id, fecha_actual, contrato_id, periododepago_id,otrosconceptos_id) VALUES (1,'2021-04-04',1,1,1)
+insert into pagos(id, fecha_actual, contrato_id, periododepago_id) VALUES (1,'2021-04-04',1,1)

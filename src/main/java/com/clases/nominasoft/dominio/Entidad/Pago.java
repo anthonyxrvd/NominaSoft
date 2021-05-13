@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -40,15 +41,13 @@ public class Pago implements Serializable {
             referencedColumnName = "id"
     )
      private Contrato contrato;
-    @OneToOne(cascade = CascadeType.ALL)
+   /* @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "otrosconceptos_id",
             referencedColumnName = "id"
-    )
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private OtrosConceptos conceptos;
-
-
+    )*/
+    /*@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private OtrosConceptos conceptos;*/
 
 
     public void setId(Long id) {
@@ -81,49 +80,64 @@ public class Pago implements Serializable {
         this.contrato = contrato;
     }
 
-    public OtrosConceptos getConceptos() {
+   /*public OtrosConceptos getConceptos() {
         return conceptos;
     }
 
     public void setConceptos(OtrosConceptos conceptos) {
         this.conceptos = conceptos;
-    }
+    }*/
     //REGLAS DE NEGOCIO
-    public int calcularSueldoBasico() {
+    public double calcularSueldoBasico() {
 
         return calcularTotalDeHoras()* contrato.getValorHora();
     }
 
-
     public double calcularIngresoTotal() {
-        return calcularSueldoBasico() + calcularMontoAsignacionFamiliar() + conceptos.calcularTotalConceptosIngresos();
-    }
 
+        return calcularSueldoBasico() + calcularMontoAsignacionFamiliar() +
+                CalcularTotalIngresosConceptos();
+
+    }
+    public double CalcularTotalIngresosConceptos(){
+        List<OtrosConceptos> conceptos = contrato.getConceptos();
+        double total = conceptos.get(conceptos.size()-1).
+                calcularTotalConceptosIngresos();
+        return total;
+    }
+    public double CalcularTotalDescuentosConceptos(){
+        List<OtrosConceptos> conceptos = contrato.getConceptos();
+        double total = conceptos.get(conceptos.size()-1).
+                calcularTotalConceptosDescuentos();
+        return total;
+    }
     public double calcularTotalDescuentos() {
-        return calcularDescuentoAFP() + conceptos.calcularTotalConceptosDescuentos();
+        return calcularDescuentoAFP() + CalcularTotalDescuentosConceptos();
     }
 
-    public float calcularMontoAsignacionFamiliar() {
-        float monto = 0f;
+    public double calcularMontoAsignacionFamiliar() {
+        double monto = 0.0;
         if (contrato.isAsignacionFamiliar()) {
-            monto = calcularSueldoBasico() * 0.1f;
+            monto = calcularSueldoBasico() * 0.1;
         }
         return monto;
     }
-    public float calcularDescuentoAFP() {
-        return calcularSueldoBasico() * contrato.getDescuentoAFP();
+    public double calcularDescuentoAFP() {
+        double descuento = contrato.getAfp().getPorcentajeDescuento();
+        double result =descuento/100.0;
+        return calcularSueldoBasico() * result;
     }
     public double calcularSueldoNeto() {
 
         return calcularIngresoTotal() - calcularTotalDescuentos();
     }
     public int calcularTotalDeHoras(){
-        return periodo.getSemanasDelPeriodo() * contrato.calcularHorasContratadasPorSemana();
+        return periodo.getSemanasDelPeriodo() * contrato.getHorasContratadas();
     }
 
     public boolean puedeProcesarContrato(){
         if (periodo.isEstado()) {
-            if((contrato.getFechaFin().after(contrato.getFechaInicio()) && contrato.isActivo())){
+            if((contrato.getFechaFin().after(periodo.getFechaInicio()) && contrato.isActivo())){
                 return true;
             }
         }

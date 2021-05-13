@@ -12,9 +12,8 @@ public class Afp implements Serializable{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    private int Descuento;
+    private int PorcentajeDescuento;
     private String nombre;
-    private int tipoAfp;
 
     public Long getId() {
         return id;
@@ -24,12 +23,12 @@ public class Afp implements Serializable{
         this.id = id;
     }
 
-    public int getDescuento() {
-        return Descuento;
+    public int getPorcentajeDescuento() {
+        return PorcentajeDescuento;
     }
 
-    public void setDescuento(int descuento) {
-        Descuento = descuento;
+    public void setPorcentajeDescuento(int porcentajeDescuento) {
+        PorcentajeDescuento = porcentajeDescuento;
     }
 
     public String getNombre() {
@@ -40,11 +39,4 @@ public class Afp implements Serializable{
         this.nombre = nombre;
     }
 
-    public int getTipoAfp() {
-        return tipoAfp;
-    }
-
-    public void setTipoAfp(int tipoAfp) {
-        this.tipoAfp = tipoAfp;
-    }
 }

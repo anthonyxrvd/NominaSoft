@@ -27,6 +27,7 @@ public class ContratoControlador {
         return contratoService.findAll();
     }
 
+
     @GetMapping("/contratos/{dni}")
     public ResponseEntity<?>filtrarContratoPorDni(@PathVariable Long dni){
         Map<String, Object> response = new HashMap<>();

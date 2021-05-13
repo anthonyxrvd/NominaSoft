@@ -33,6 +33,7 @@ public class EmpleadoImple implements IEmpleadoService {
     }
     @Override
     public Empleado buscar(long id) {
+
         return empleadoDao.findById(id).orElse(null);
     }
 
@@ -41,6 +42,4 @@ public class EmpleadoImple implements IEmpleadoService {
     public Empleado findByDni(Long dni) {
         return empleadoDao.findByDni(dni);
     }
-
-
 }

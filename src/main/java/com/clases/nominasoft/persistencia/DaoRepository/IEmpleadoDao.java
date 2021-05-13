@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface IEmpleadoDao extends CrudRepository<Empleado,Long> {
-    //@Query
+
+
     public Empleado findByDni(Long dni);
 }

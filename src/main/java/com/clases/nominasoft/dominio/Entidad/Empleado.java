@@ -66,6 +66,7 @@ public class Empleado implements Serializable {
             length = 9
     )
     private String gradoAcademico;
+
     @JsonIgnoreProperties({"empleado","hibernateLazyInitializer","handler"})
     @OneToMany(
             cascade = CascadeType.ALL,

@@ -15,7 +15,6 @@ import static javax.persistence.GenerationType.*;
 public class Contrato implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
@@ -56,13 +55,16 @@ public class Contrato implements Serializable {
     @JoinColumn(name = "empleado_id",
             referencedColumnName = "id")
      private Empleado empleado;
-    /*@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "otrosconceptos_id",
-            referencedColumnName = "id"
+
+
+
+    @JsonIgnoreProperties({"contrato","hibernateLazyInitializer", "handler"})
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy="contrato"
     )
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private OtrosConceptos conceptos;*/
+    List<OtrosConceptos> conceptos = new ArrayList<>();
 
     @JsonIgnoreProperties({"contrato","hibernateLazyInitializer", "handler"})
     @OneToMany(
@@ -71,8 +73,6 @@ public class Contrato implements Serializable {
             mappedBy="contrato"
     )
     List<Pago> pagos = new ArrayList<>();
-
-
 
     public Empleado getEmpleado() {
         return empleado;
@@ -104,7 +104,9 @@ public class Contrato implements Serializable {
 
     public void setCargo(String cargo) {
         this.cargo = cargo;
+
     }
+
 
     public Calendar getFechaInicio() {
         return fechaInicio;
@@ -154,39 +156,32 @@ public class Contrato implements Serializable {
         this.activo = activo;
     }
 
- /*   public OtrosConceptos getConceptos() {
-        return conceptos;
-    }
-
-    public void setConceptos(OtrosConceptos conceptos) {
-        this.conceptos = conceptos;
-    }*/
-
     public List<Pago> getPagos() {
         return pagos;
     }
 
+    public List<OtrosConceptos> getConceptos() {
+        return conceptos;
+    }
+
+    public void setConceptos(List<OtrosConceptos> conceptos) {
+        this.conceptos = conceptos;
+    }
     public void setPagos(List<Pago> pagos) {
         this.pagos = pagos;
     }
 //REGLAS DE NEGOCIO
 
     public boolean estaVigente() {
-        if ((fechaFin.after(fechaInicio) || fechaFin.equals(fechaInicio)) && activo) {
+        Calendar fechaActual = Calendar.getInstance();
+        if ((fechaFin.after(fechaActual) || fechaFin.equals(fechaActual)) && activo) {
             return true;
         }
         return false;
     }
-
-    public boolean esValidaFechaInicio() {
-        List<Contrato> listaContratos = empleado.getContratos();
-        Contrato ultimoContrato = listaContratos.get(listaContratos.size() - 1);
-        if (listaContratos.isEmpty()) {
+    public boolean esValidaFechaInicio(Contrato contratoAnterior) {
+        if (fechaInicio.after(contratoAnterior.getFechaFin())) {
             return true;
-        } else {
-            if (fechaInicio.after(ultimoContrato.getFechaFin())) {
-                return true;
-            }
         }
         return false;
     }
@@ -209,13 +204,11 @@ public class Contrato implements Serializable {
         }
         return false;
     }
-    public float getDescuentoAFP() {
+   /* public double getDescuentoAFP() {
         float descuento = 0;
         descuento = afp.getDescuento();
-
         return descuento / 100;
-    }
-
+    }*/
     /*public double calcularTotalIngresos() { //mover a otra clase, puede ser pagos
         return calcularSueldoBasico() + calcularMontoAsignacionFamiliar() + conceptos.calcularTotalConceptosIngresos();
     }*/
@@ -230,19 +223,17 @@ public class Contrato implements Serializable {
         return calcularTotalIngresos() - calcularTotalDescuentos();
     }*/
 
-    public int calcularHorasContratadasPorSemana() {
+   /* public int calcularHorasContratadasPorSemana() {
         return (int) Math.ceil((horasContratadas / calcularSemanasDelContrato()));
-    }
+    }*/
 
     //OTROS METODOS
     private boolean minimo3Meses() {
         Calendar fechaInicioCopia = (Calendar) fechaInicio.clone();
         fechaInicioCopia.add(Calendar.MONTH, 3);
         if (fechaInicioCopia.before(fechaFin) || fechaInicioCopia.equals(fechaFin)) {
-            return true;
-        }
-        return false;
-    }
+            return true; }
+        return false; }
     private boolean maximo12Meses() {
         Calendar fechaInicioCopia = (Calendar) fechaInicio.clone();
         fechaInicioCopia.add(Calendar.MONTH, 12);
@@ -251,12 +242,14 @@ public class Contrato implements Serializable {
         }
         return false;
     }
-    private int calcularSemanasDelContrato() {
+    public int calcularSemanasDelContrato() {
         long milis = fechaFin.getTimeInMillis() - fechaInicio.getTimeInMillis();
         int dias = (int) Math.floor((double) (milis / 86400000));
         int semanas = (int) Math.floor((dias / 7));
         return semanas;
     }
 
-
+    public void agregarOtrosConceptos(OtrosConceptos Oconceptos) {
+        conceptos.add(Oconceptos);
+    }
 }
